@@ -286,9 +286,11 @@ function startWorkout(dayId) {
   if (!activeDay) return;
   currentSets = {};
   activeDay.exercises.forEach(ex => {
-    const lw = lastWeights[ex.id] || [];
+    const lw   = lastWeights[ex.id] || [];
+    const nums = lw.map(Number).filter(n => !isNaN(n) && n > 0);
+    const best = nums.length ? String(Math.max(...nums)) : '';
     currentSets[ex.id] = Array.from({length: ex.sets}, (_, i) => ({
-      weight: lw[i] !== undefined ? lw[i] : '',
+      weight: i === 0 ? best : '',
       reps: '',
       done: false,
     }));
